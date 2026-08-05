@@ -159,3 +159,15 @@ Potential future development areas:
 ---
 
 ## Repository Structure
+
+AI_Requirements_Traceability_Assistant_v2/
+│
+├── AI_Requirements_Traceability_Assistant_v2.html
+├── README.md
+├── LICENSE
+│
+├── docs/
+│   └── Design documentation and user guidance
+│
+└── examples/
+    └── Sample requirements and AI response files
