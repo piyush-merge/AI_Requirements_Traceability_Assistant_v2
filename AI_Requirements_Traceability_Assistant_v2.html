@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AI Requirements Traceability Assistant v2.0</title>
+
+<style>
+
+:root {
+    --navy:#17365d;
+    --blue:#2563eb;
+    --green:#15803d;
+    --orange:#c2410c;
+    --red:#b91c1c;
+    --gray:#64748b;
+    --bg:#f4f6f9;
+    --border:#d1d5db;
+}
+
+* {
+    box-sizing:border-box;
+}
+
+body {
+    font-family:"Segoe UI", Arial, sans-serif;
+    margin:0;
+    padding:20px;
+    background:var(--bg);
+    color:#1f2937;
+}
+
+.header {
+    background:white;
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:22px;
+    margin-bottom:20px;
+}
+
+.header h1 {
+    margin:0;
+    color:var(--navy);
+}
+
+.header p {
+    color:var(--gray);
+}
+
+.notice {
+    background:#eff6ff;
+    border-left:5px solid var(--blue);
+    padding:12px;
+    margin-top:15px;
+    color:#1e3a8a;
+}
+
+.section {
+    background:white;
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:18px;
+    margin-bottom:20px;
+}
+
+.section h2 {
+    color:var(--navy);
+}
+
+.grid {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
+
+textarea {
+    width:100%;
+    height:180px;
+    padding:12px;
+    border-radius:6px;
+    border:1px solid var(--border);
+    font-family:Consolas, monospace;
+}
+
+input[type="file"] {
+    margin-top:10px;
+    margin-bottom:10px;
+}
+
+button {
+    background:var(--blue);
+    color:white;
+    border:none;
+    padding:12px 18px;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:600;
+}
+
+button:hover {
+    background:#1d4ed8;
+}
+
+.secondary {
+    background:#475569;
+}
+
+.kpis {
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+    gap:15px;
+}
+
+.card {
+    background:white;
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:15px;
+}
+
+.label {
+    color:var(--gray);
+    font-size:12px;
+}
+
+.value {
+    font-size:28px;
+    font-weight:bold;
+}
+
+.green {
+    color:var(--green);
+}
+
+.orange {
+    color:var(--orange);
+}
+
+.red {
+    color:var(--red);
+}
+
+.panel {
+    background:#f8fafc;
+    border-left:5px solid var(--blue);
+    padding:15px;
+    margin-top:10px;
+}
+
+pre {
+    background:#111827;
+    color:white;
+    padding:15px;
+    border-radius:6px;
+    overflow:auto;
+}
+
+table {
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+}
+
+th {
+    background:#edf2f7;
+    padding:10px;
+    text-align:left;
+}
+
+td {
+    padding:10px;
+    border-bottom:1px solid #e5e7eb;
+}
+
+tr:hover {
+    background:#f8fafc;
+}
+
+.risk-high {
+    color:var(--red);
+    font-weight:bold;
+}
+
+.risk-medium {
+    color:var(--orange);
+    font-weight:bold;
+}
+
+.risk-low {
+    color:var(--green);
+    font-weight:bold;
+}
+
+@media(max-width:900px){
+
+.grid {
+    grid-template-columns:1fr;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<div class="header">
+
+<h1>
+AI Requirements Traceability Assistant v2.0
+</h1>
+
+<p>
+AI-assisted Test and Evaluation (T&E) decision-support prototype for requirements coverage analysis, verification alignment, and readiness gap identification using an approved AI analysis workflow.
+</p>
+
+<div class="notice">
+
+This prototype runs locally in the browser. No information is uploaded or transmitted externally unless the user submits information through an approved AI environment.
+
+</div>
+
+</div>
+
+
+<div class="section">
+
+<h2>
+Analysis Inputs
+</h2>
+
+
+<div class="grid">
+
+
+<div>
+
+<h3>
+Requirements
+</h3>
+
+
+<textarea id="requirements">
+
+REQ-001:
+The system shall maintain secure communications.
+
+REQ-002:
+The system shall operate continuously for 72 hours without failure.
+
+REQ-003:
+The system shall achieve required mobility performance.
+
+</textarea>
+
+
+<br>
+
+<label>
+Import Requirements File (.txt or .csv)
+</label>
+
+<br>
+
+<input type="file" id="requirementsFile" accept=".txt,.csv">
+
+<br>
+
+<button class="secondary" onclick="importRequirements()">
+Load Requirements File
+</button>
+
+<p style="font-size:12px;color:#64748b;">
+Supported formats: TXT and CSV. Files are processed locally in the browser.
+</p>
+
+
+</div>
+
+
+<div>
+
+<h3>
+Test Information
+</h3>
+
+
+<textarea id="tests">
+
+Test Objective:
+Evaluate cybersecurity controls.
+
+Test Objective:
+Conduct operational endurance testing.
+
+Test Objective:
+Perform mobility testing under operational conditions.
+
+</textarea>
+
+</div>
+
+
+</div>
+
+
+<br>
+
+
+<button onclick="prepareAIRequest()">
+Generate AI Analysis Request
+</button>
+
+
+<button class="secondary" onclick="copyPrompt()">
+Copy AI Request
+</button>
+
+
+</div>
+
+<div class="section">
+
+<h2>
+AI Analysis Request
+</h2>
+
+
+<div id="promptArea" class="panel">
+
+Generate request first.
+
+</div>
+
+
+</div>
+
+
+
+<div class="section">
+
+<h2>
+AI Assessment Dashboard
+</h2>
+
+
+<div class="kpis">
+
+
+<div class="card">
+
+<div class="label">
+Traceability Score
+</div>
+
+<div id="score" class="value">
+--
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="label">
+Requirements Reviewed
+</div>
+
+<div id="reviewed" class="value">
+--
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="label">
+Coverage Gaps
+</div>
+
+<div id="gaps" class="value red">
+--
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="label">
+AI Assessment Confidence
+</div>
+
+<div id="confidence" class="value">
+--
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="label">
+Risk Posture
+</div>
+
+<div id="riskPosture" class="value">
+--
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<div class="section">
+
+<h2>
+AI Response Input
+</h2>
+
+
+<p>
+Paste the structured JSON response generated by the approved AI analysis workflow.
+</p>
+
+
+<textarea id="aiResponse">
+
+{
+"executive_summary":
+"Three requirements were reviewed. Two requirements have supporting verification activities. One requirement requires additional endurance verification evidence.",
+
+"traceability_score":
+"67%",
+
+"confidence":
+"91%",
+
+"requirements_reviewed":
+"3",
+
+"coverage_gaps":
+"1",
+
+"risk_posture":
+"Moderate Concern",
+
+"findings":[
+
+{
+"requirement":
+"REQ-002 - The system shall operate continuously for 72 hours without failure.",
+
+"assessment":
+"No direct endurance verification evidence was identified.",
+
+"risk":
+"High",
+
+"recommendation":
+"Add operational endurance testing before readiness decision."
+}
+
+]
+
+}
+
+</textarea>
+
+
+<br><br>
+
+
+<button onclick="processAIResponse()">
+
+Analyze AI Results
+
+</button>
+
+
+</div>
+
+
+
+<div class="section">
+
+<h2>
+Executive Assessment
+</h2>
+
+
+<div id="summary">
+
+AI assessment will appear here.
+
+</div>
+
+
+</div>
+
+
+
+<div class="section">
+
+<h2>
+AI Findings
+</h2>
+
+
+<div id="findings">
+
+AI findings will appear here.
+
+</div>
+
+
+</div>
+
+
+
+<div class="section">
+
+<h2>
+Requirement Traceability Matrix
+</h2>
+
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>
+Requirement
+</th>
+
+<th>
+AI Assessment
+</th>
+
+<th>
+Risk
+</th>
+
+<th>
+Recommended Action
+</th>
+
+</tr>
+
+</thead>
+
+
+<tbody id="traceabilityBody">
+
+</tbody>
+
+
+</table>
+
+
+</div>
+
+
+
+<div class="section">
+
+<h2>
+Risk Visualization
+</h2>
+
+
+<div id="riskChart">
+
+AI risk distribution will appear here.
+
+</div>
+
+
+</div>
+
+
+
+<script>
+
+
+let aiRequest = "";
+
+
+
+function importRequirements(){
+
+
+let fileInput =
+document.getElementById("requirementsFile");
+
+
+let file =
+fileInput.files[0];
+
+
+if(!file){
+
+alert("Please select a requirements file first.");
+
+return;
+
+}
+
+
+let reader = new FileReader();
+
+
+
+reader.onload = function(event){
+
+
+let content =
+event.target.result;
+
+
+let extension =
+file.name.split(".").pop().toLowerCase();
+
+
+
+if(extension === "csv"){
+
+content = convertCSVRequirements(content);
+
+}
+
+
+document.getElementById("requirements").value =
+content.trim();
+
+
+
+alert("Requirements imported successfully.");
+
+
+
+};
+
+
+
+reader.readAsText(file);
+
+
+
+}
+
+
+function convertCSVRequirements(csvText){
+
+let lines =
+csvText.split(/\r?\n/);
+
+let output = "";
+
+lines.forEach((line,index)=>{
+
+let row = line.trim();
+
+if(row===""){
+return;
+}
+
+
+/*
+Handles CSV values with commas inside quotation marks.
+Example:
+REQ-001,"The system shall protect data, including encrypted transmission."
+*/
+
+let columns = [];
+let current = "";
+let insideQuotes = false;
+
+
+for(let i=0; i<row.length; i++){
+
+let char = row[i];
+
+
+if(char === '"'){
+
+insideQuotes = !insideQuotes;
+
+}
+
+else if(char === "," && !insideQuotes){
+
+columns.push(current.trim());
+
+current = "";
+
+}
+
+else{
+
+current += char;
+
+}
+
+}
+
+
+columns.push(current.trim());
+
+
+
+let firstColumn =
+columns[0].toLowerCase();
+
+
+
+/*
+Ignore common CSV header rows
+*/
+
+if(index===0 &&
+(
+firstColumn==="requirement" ||
+firstColumn==="requirement id" ||
+firstColumn==="id" ||
+firstColumn==="req"
+)){
+
+return;
+
+}
+
+
+
+/*
+Convert CSV format:
+
+REQ-001,"Requirement text"
+
+into:
+
+REQ-001:
+Requirement text
+
+*/
+
+if(columns.length >= 2){
+
+output += columns[0] + ":\n";
+
+output += columns.slice(1).join(",").replace(/^"|"$/g,"");
+
+output += "\n\n";
+
+}
+
+else{
+
+output += row.replace(/^"|"$/g,"") + "\n\n";
+
+}
+
+
+});
+
+
+return output.trim();
+
+}
+
+
+function prepareAIRequest(){
+
+
+let requirements =
+document.getElementById("requirements").value;
+
+
+let tests =
+document.getElementById("tests").value;
+
+
+
+aiRequest = `
+
+You are an expert Test and Evaluation (T&E) analyst.
+
+Review the requirements and test information below.
+
+Perform an AI-based requirements traceability assessment.
+
+Evaluate:
+
+1. Requirement coverage.
+2. Verification alignment.
+3. Missing evidence.
+4. Technical risk.
+5. Recommended follow-up actions.
+
+Return ONLY valid JSON using this structure:
+
+{
+"executive_summary":"",
+"traceability_score":"",
+"confidence":"",
+"requirements_reviewed":"",
+"coverage_gaps":"",
+"risk_posture":"",
+"findings":[
+{
+"requirement":"",
+"assessment":"",
+"risk":"",
+"recommendation":""
+}
+]
+}
+
+
+Requirements:
+
+${requirements}
+
+
+Test Information:
+
+${tests}
+
+
+`;
+
+
+
+document.getElementById("promptArea").innerHTML =
+
+"<pre>" + aiRequest + "</pre>";
+
+
+
+}
+
+
+
+function copyPrompt(){
+
+
+if(aiRequest===""){
+
+alert("Generate the AI request first.");
+
+return;
+
+}
+
+
+if(navigator.clipboard){
+
+
+navigator.clipboard.writeText(aiRequest)
+
+.then(()=>{
+
+alert("AI request copied.");
+
+})
+
+.catch(()=>{
+
+alert("Copy failed. Please manually copy the AI request.");
+
+});
+
+
+}
+
+else{
+
+alert("Copy is not supported. Please manually copy the AI request.");
+
+}
+
+
+}
+
+
+
+function processAIResponse(){
+
+
+let responseText =
+document.getElementById("aiResponse").value;
+
+
+
+try{
+
+
+let data =
+JSON.parse(responseText);
+
+
+displayAIResults(data);
+
+
+}
+
+catch(error){
+
+
+alert(
+"Invalid AI response format. Please provide valid JSON."
+);
+
+
+}
+
+
+
+}
+
+function displayAIResults(data){
+
+
+if(!data.findings){
+
+data.findings=[];
+
+}
+
+
+
+document.getElementById("score").innerHTML =
+data.traceability_score || "N/A";
+
+
+document.getElementById("reviewed").innerHTML =
+data.requirements_reviewed || "N/A";
+
+
+document.getElementById("gaps").innerHTML =
+data.coverage_gaps || "N/A";
+
+
+document.getElementById("confidence").innerHTML =
+data.confidence || "N/A";
+
+
+document.getElementById("riskPosture").innerHTML =
+data.risk_posture || "N/A";
+
+
+
+document.getElementById("summary").innerHTML =
+
+`
+
+<div class="panel">
+
+<p>
+${data.executive_summary || "No executive summary provided."}
+</p>
+
+</div>
+
+`;
+
+
+
+let findingsHTML="";
+
+
+
+data.findings.forEach(item=>{
+
+
+let riskClass="";
+
+
+let riskText=(item.risk || "").toLowerCase();
+
+
+
+if(riskText.includes("high")){
+
+riskClass="red";
+
+}
+
+else if(riskText.includes("medium")){
+
+riskClass="orange";
+
+}
+
+else{
+
+riskClass="green";
+
+}
+
+
+
+findingsHTML +=
+
+`
+
+<div class="panel">
+
+<h3>
+${item.requirement || "Unknown Requirement"}
+</h3>
+
+
+<p>
+<strong>Assessment:</strong>
+${item.assessment || "N/A"}
+</p>
+
+
+<p class="${riskClass}">
+<strong>Risk:</strong>
+${item.risk || "N/A"}
+</p>
+
+
+<p>
+<strong>Recommended Action:</strong>
+${item.recommendation || "N/A"}
+</p>
+
+
+</div>
+
+`;
+
+
+
+});
+
+
+document.getElementById("findings").innerHTML =
+findingsHTML;
+
+
+
+createTraceabilityMatrix(data);
+
+createRiskVisualization(data);
+
+
+
+}
+
+
+
+
+
+function createTraceabilityMatrix(data){
+
+
+let body =
+document.getElementById("traceabilityBody");
+
+
+body.innerHTML="";
+
+
+
+if(!data.findings || data.findings.length===0){
+
+
+body.innerHTML=
+
+`
+<tr>
+
+<td colspan="4">
+No findings returned from AI analysis.
+</td>
+
+</tr>
+`;
+
+return;
+
+}
+
+
+
+data.findings.forEach(item=>{
+
+
+let riskClass="";
+
+let risk=(item.risk || "").toLowerCase();
+
+
+
+if(risk.includes("high")){
+
+riskClass="risk-high";
+
+}
+
+else if(risk.includes("medium")){
+
+riskClass="risk-medium";
+
+}
+
+else{
+
+riskClass="risk-low";
+
+}
+
+
+
+body.innerHTML +=
+
+`
+
+<tr>
+
+<td>
+${item.requirement || "N/A"}
+</td>
+
+
+<td>
+${item.assessment || "N/A"}
+</td>
+
+
+<td class="${riskClass}">
+${item.risk || "N/A"}
+</td>
+
+
+<td>
+${item.recommendation || "N/A"}
+</td>
+
+
+</tr>
+
+`;
+
+
+
+});
+
+
+}
+
+
+
+
+function createRiskVisualization(data){
+
+
+let high=0;
+
+let medium=0;
+
+let low=0;
+
+
+
+if(!data.findings){
+
+return;
+
+}
+
+
+
+data.findings.forEach(item=>{
+
+
+let risk =
+(item.risk || "").toLowerCase();
+
+
+
+if(risk.includes("high")){
+
+high++;
+
+}
+
+else if(risk.includes("medium")){
+
+medium++;
+
+}
+
+else{
+
+low++;
+
+}
+
+
+});
+
+
+
+document.getElementById("riskChart").innerHTML =
+
+
+`
+
+<div class="panel">
+
+
+<p class="red">
+
+High Risk Findings:
+<strong>${high}</strong>
+
+</p>
+
+
+
+<p class="orange">
+
+Medium Risk Findings:
+<strong>${medium}</strong>
+
+</p>
+
+
+
+<p class="green">
+
+Low Risk Findings:
+<strong>${low}</strong>
+
+</p>
+
+
+
+</div>
+
+`;
+
+
+
+}
+
+
+
+</script>
+
+
+</body>
+
+</html>
