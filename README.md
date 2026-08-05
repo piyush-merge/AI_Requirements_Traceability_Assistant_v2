@@ -160,6 +160,7 @@ Potential future development areas:
 
 ## Repository Structure
 
+```text
 AI_Requirements_Traceability_Assistant_v2/
 │
 ├── AI_Requirements_Traceability_Assistant_v2.html
