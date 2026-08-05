@@ -170,6 +170,3 @@ AI_Requirements_Traceability_Assistant_v2/
 │   ├── sample_requirements.csv
 │   ├── sample_test_information.txt
 │   └── sample_ai_response.json
-│
-└── docs/
-    └── AI_Requirements_Traceability_Assistant_v2_Documentation.docx
