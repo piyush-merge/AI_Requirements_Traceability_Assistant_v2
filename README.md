@@ -164,10 +164,11 @@ AI_Requirements_Traceability_Assistant_v2/
 │
 ├── AI_Requirements_Traceability_Assistant_v2.html
 ├── README.md
-├── LICENSE
 │
-├── docs/
-│   └── Design documentation and user guidance
+├── examples/
+│   ├── sample_requirements.csv
+│   ├── sample_test_information.txt
+│   └── sample_ai_response.json
 │
-└── examples/
-    └── Sample requirements and AI response files
+└── docs/
+    └── AI_Requirements_Traceability_Assistant_v2_Documentation.docx
