@@ -162,11 +162,13 @@ Potential future development areas:
 
 ```text
 AI_Requirements_Traceability_Assistant_v2/
+
 │
 ├── AI_Requirements_Traceability_Assistant_v2.html
 ├── README.md
+├── AI_Requirements_Traceability_Assistant_v2_Documentation.docx
 │
-├── examples/
-│   ├── sample_requirements.csv
-│   ├── sample_test_information.txt
-│   └── sample_ai_response.json
+└── examples/
+    ├── sample_requirements.csv
+    ├── sample_test_information.txt
+    └── sample_ai_response.json
