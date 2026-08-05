@@ -1,0 +1,5 @@
+Requirement ID,Requirement Description
+REQ-001,The system shall maintain secure communications.
+REQ-002,The system shall operate continuously for 72 hours without failure.
+REQ-003,The system shall achieve required mobility performance.
+REQ-004,The system shall protect operational data from unauthorized access.
